@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from pet_project.serializers import PetProjectSerializer
 from pet_project.models import Tags, ProjectTag, Project
-
+from drf_yasg.utils import swagger_auto_schema
 
 # Create your views here.
 
@@ -13,6 +13,13 @@ from pet_project.models import Tags, ProjectTag, Project
 class PetProjectView(APIView):
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=PetProjectSerializer,
+        request_method='POST',
+        responses={
+            200: PetProjectSerializer
+        }
+    )
     def post(self, request):
         data = request.data
         serializer = PetProjectSerializer(data=data)
