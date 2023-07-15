@@ -1,3 +1,4 @@
+from django.forms import model_to_dict
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -15,25 +16,24 @@ class PetProjectView(APIView):
 
     @swagger_auto_schema(
         request_body=PetProjectSerializer,
-        request_method='POST',
-        responses={
-            200: PetProjectSerializer
-        }
+        request_method="POST",
+        responses={200: PetProjectSerializer},
     )
     def post(self, request):
         data = request.data
         serializer = PetProjectSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         tags = data.pop("tags")
+
+        project, created = Project.objects.get_or_create(user=request.user, **data)
         try:
-            project, created = Project.objects.get_or_create(user=request.user, **data)
             if created is True:
-                ProjectTag.objects.bulk_create(
+                tags = ProjectTag.objects.bulk_create(
                     [
                         ProjectTag(
                             project=project,
-                            tag_type=tag["tag_type"],
-                            tag=Tags.objects.get_or_create(tag=tag["tag"])[0],
+                            union_type=tag.pop('union_type'),
+                            tag_name=Tags.objects.get_or_create(**tag)[0],
                         )
                         for tag in tags
                     ]

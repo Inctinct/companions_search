@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 import requests
 
 from user.tokens import get_tokens_for_user
@@ -35,9 +35,7 @@ class CallbackView(APIView):
 
 
 class HomeView(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
     def get(self, request):
-        user = User.objects.get(username=self.request.user)
-        print(user)
         return Response(status=200)

@@ -5,11 +5,12 @@ from pet_project.models import Tags, ProjectTag, Project
 
 
 class ProjectTagSerializer(ModelSerializer):
-    tag = serializers.CharField()
+    uuid = serializers.UUIDField(required=False)
+    name = serializers.CharField(required=False)
 
     class Meta:
         model = ProjectTag
-        fields = ["tag", "tag_type"]
+        fields = ["name", "union_type", "uuid"]
 
 
 class PetProjectSerializer(ModelSerializer):
@@ -18,3 +19,4 @@ class PetProjectSerializer(ModelSerializer):
     class Meta:
         model = Project
         fields = ["title", "description", "repository", "tags"]
+
