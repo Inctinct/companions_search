@@ -1,5 +1,5 @@
 """
-URL configuration for project project.
+URL configuration for config config.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -48,6 +48,5 @@ urlpatterns = [
     ),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
     path("admin/", admin.site.urls),
-    path("", include("user.urls")),
-    path("", include("pet_project.urls")),
+    path("api/", include("apps.router")),
 ]

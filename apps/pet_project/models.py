@@ -3,7 +3,7 @@ import uuid
 from django.contrib.auth.models import User
 from django.db import models
 
-from pet_project.validators import validate_github_url
+from apps.pet_project.validators import validate_github_url
 
 
 class Tags(models.Model):

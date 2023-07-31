@@ -3,7 +3,7 @@ from django.contrib.auth.views import LogoutView
 from django.urls import path, re_path
 from rest_framework_simplejwt.views import TokenVerifyView, TokenRefreshView
 
-from user.views import CallbackView, LoginView, HomeView
+from apps.user.views import CallbackView, LoginView, HomeView
 
 urlpatterns = [
     path("login", LoginView.as_view(), name="login"),

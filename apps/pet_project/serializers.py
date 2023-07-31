@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
-from pet_project.models import Tags, ProjectTag, Project
+from apps.pet_project.models import Tags, ProjectTag, Project
 
 
 class ProjectTagSerializer(ModelSerializer):
@@ -26,7 +26,7 @@ class ProjectTagGetSerializer(ModelSerializer):
     name = serializers.SerializerMethodField()
 
     def get_name(self, data):
-        return (data.get("tag_id")).name
+        return data.tag_id.name
 
     class Meta:
         model = ProjectTag
@@ -34,8 +34,8 @@ class ProjectTagGetSerializer(ModelSerializer):
 
 
 class PetProjectGetSerializer(ModelSerializer):
-    tags = ProjectTagGetSerializer(many=True)
+    projecttag_set = ProjectTagGetSerializer(many=True)
 
     class Meta:
         model = Project
-        fields = ["id", "title", "description", "repository", "tags"]
+        fields = ["id", "title", "description", "repository", "projecttag_set"]

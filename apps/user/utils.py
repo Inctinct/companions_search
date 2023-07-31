@@ -1,7 +1,7 @@
 import requests
 from django.contrib.auth import get_user_model
 from django.utils.http import urlencode
-from project.settings import (
+from config.settings import (
     GITHUB_OAUTH_SCOPES,
     GITHUB_OAUTH_CLIENT_ID,
     GITHUB_OAUTH_CALLBACK_URL,
