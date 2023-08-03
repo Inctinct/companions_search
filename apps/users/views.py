@@ -7,8 +7,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 import requests
 
-from apps.user.tokens import get_tokens_for_user
-from apps.user.utils import get_redirect_uri, get_github_token, get_user
+from apps.users.tokens import get_tokens_for_user
+from apps.users.utils import get_redirect_uri, get_github_token, get_user
 
 
 class LoginView(APIView):
