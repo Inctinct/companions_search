@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class ProjectListConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "project_list"
+    name = "apps.pet_project.project_list"

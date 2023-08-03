@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of config and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-l))6e)#7vznz!wm*g+mnf0qknzl91r_efbl*t3j^$rxm7(30ik"
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get("DEBUG"))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -36,13 +37,13 @@ REST_FRAMEWORK = {
 }
 
 
-GITHUB_OAUTH_CLIENT_ID = "841479c938239e7f106e"
-GITHUB_OAUTH_SECRET = "5a652890e9c1200246db184c9093d0f4fbfbd82c"
+GITHUB_OAUTH_CLIENT_ID = os.environ.get("GITHUB_OAUTH_CLIENT_ID")
+GITHUB_OAUTH_SECRET = os.environ.get("GITHUB_OAUTH_SECRET")
 GITHUB_OAUTH_CALLBACK_URL = "http://localhost:8000/api/callback"
-GITHUB_OAUTH_SCOPES = ["user"]
+GITHUB_OAUTH_SCOPES = ["users"]
 
 AUTH_USER_MODEL = "auth.User"
-GITHUB_AUTHENTICATION_BACKENDS = "user.backends.Backend"
+GITHUB_AUTHENTICATION_BACKENDS = "users.backends.Backend"
 LOGIN_REDIRECT_URL = "http://localhost:8000/api/"
 LOGOUT_REDIRECT_URL = "http://localhost:8000/api/"
 
@@ -60,8 +61,9 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
     # apps
-    "apps.user.apps.UserConfig",
+    "apps.users.apps.UserConfig",
     "apps.pet_project.apps.PetProjectConfig",
+    "apps.pet_project.project_list.apps.ProjectListConfig"
 ]
 
 MIDDLEWARE = [
@@ -98,10 +100,20 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": os.environ.get("POSTGRES_DB"),
+#         "USER": os.environ.get("POSTGRES_USER"),
+#         "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+#         "HOST": os.environ.get("POSTGRES_HOST"),
+#         "PORT": os.environ.get("POSTGRES_PORT"),
+#     }
+# }
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -155,7 +167,7 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,
+    "SIGNING_KEY": os.environ.get("SECRET_KEY"),
     "VERIFYING_KEY": "",
     "AUDIENCE": None,
     "ISSUER": None,
